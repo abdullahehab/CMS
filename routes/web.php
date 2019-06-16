@@ -44,3 +44,7 @@ Route::group(['prefix' => 'category', 'middleware' => 'auth'], function () {
     Route::get('/{category}', 'CategoriesController@destroy')->name('category.destroy');
 //    delete route
 });
+
+Route::resource('/tags', 'TagController')->middleware('auth');
+Route::get('/tags/{tag}', 'TagController@destroy')->name('tag.destroy');
+
