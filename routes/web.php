@@ -41,10 +41,10 @@ Route::group(['prefix' => 'category', 'middleware' => 'auth'], function () {
     Route::post('/store', 'CategoriesController@store')->name('category.store');
     Route::get('/{category}/edit', 'CategoriesController@edit')->name('category.edit');
     Route::PATCH('/{category}', 'CategoriesController@update')->name('category.update');
-    Route::get('/{category}', 'CategoriesController@destroy')->name('category.destroy');
+    Route::DELETE   ('/{category}', 'CategoriesController@destroy')->name('category.destroy');
 //    delete route
 });
 
 Route::resource('/tags', 'TagController')->middleware('auth');
-Route::get('/tags/{tag}', 'TagController@destroy')->name('tag.destroy');
+//Route::get('/tags/{tag}', 'TagController@destroy')->name('tag.destroy');
 
