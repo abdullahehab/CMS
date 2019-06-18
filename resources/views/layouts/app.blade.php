@@ -29,46 +29,47 @@
                 </a>
 
 
-                {{--Category Drop down menu--}}
-                <ul class="nav nav-pills">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categories</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{route('category.create')}}">Create</a>
-                            <a class="dropdown-item" href="{{route('categories')}}">All categories</a>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </li>
-                </ul>
-                {{--End Category Drop down menu--}}
+                @if(Auth::check())
+                    {{--Category Drop down menu--}}
+                    <ul class="nav nav-pills">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categories</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{route('category.create')}}">Create</a>
+                                <a class="dropdown-item" href="{{route('categories')}}">All categories</a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    {{--End Category Drop down menu--}}
 
-                {{--Posts Drop down menu--}}
-                <ul class="nav nav-pills">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Posts</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{route('post.create')}}">Create</a>
-                            <a class="dropdown-item" href="{{route('posts')}}">Posts</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('post.trashed')}}">Deleted Posts</a>
-                        </div>
-                    </li>
-                </ul>
-                {{--End Posts Drop down menu--}}
+                    {{--Posts Drop down menu--}}
+                    <ul class="nav nav-pills">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Posts</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{route('post.create')}}">Create</a>
+                                <a class="dropdown-item" href="{{route('posts')}}">Posts</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{route('post.trashed')}}">Deleted Posts</a>
+                            </div>
+                        </li>
+                    </ul>
+                    {{--End Posts Drop down menu--}}
 
-                {{--Tags Drop down menu--}}
-                <ul class="nav nav-pills">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tags</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{route('tags.create')}}">Create</a>
-                            <a class="dropdown-item" href="{{route('tags.index')}}">Tags</a>
-                            <div class="dropdown-divider"></div>
-                        </div>
-                    </li>
-                </ul>
-                {{--End tags Drop down menu--}}
-
+                    {{--Tags Drop down menu--}}
+                    <ul class="nav nav-pills">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tags</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{route('tags.create')}}">Create</a>
+                                <a class="dropdown-item" href="{{route('tags.index')}}">Tags</a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    {{--End tags Drop down menu--}}
+                @endif
 
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
