@@ -15,7 +15,8 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">First</th>
-                                <th scope="col">Options</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -24,13 +25,26 @@
                                     <th scope="row">{{ $tags->id }}</th>
                                     <td>{{ $tags->tag }}</td>
                                     <td>
-                                        <a href="{{route('tags.edit',['category' => $tags->id])}}">
-                                            Edit
-                                        </a>
-                                        |
-                                        <a href="{{route('tags.destroy',['category' => $tags->id])}}">
-                                            Delete
-                                        </a>
+                                        <form action="{{route('tags.edit',['tag' => $tags->id])}}">
+                                            @method('DELETE')
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-outline-primary" value="Edit">
+                                            </div>
+
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="{{route('tags.destroy',['tag' => $tags->id])}}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-outline-danger" value="Delete">
+                                            </div>
+
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

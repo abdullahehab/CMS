@@ -13,7 +13,8 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">First</th>
-                                <th scope="col">Options</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -22,14 +23,36 @@
                                     <th scope="row">{{ $category->id }}</th>
                                     <td>{{ $category->name }}</td>
                                     <td>
-                                        <a href="{{route('category.edit',['category' => $category->id])}}">
-                                            Edit
-                                        </a>
-                                        |
-                                        <a href="{{route('category.destroy',['category' => $category->id])}}">
-                                            Delete
-                                        </a>
+                                        <form action="{{route('category.edit',['category' => $category->id])}}">
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-outline-primary" value="Edit">
+                                            </div>
+
+                                        </form>
                                     </td>
+                                    <td>
+                                        <form action="{{route('category.destroy',['category' => $category->id])}}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-outline-danger" value="Delete">
+                                            </div>
+
+                                        </form>
+                                    </td>
+
+                                    {{--                                    <td>--}}
+{{--                                        <a href="{{route('category.edit',['category' => $category->id])}}">--}}
+{{--                                            Edit--}}
+{{--                                        </a>--}}
+{{--                                        |--}}
+{{--                                        <a href="{{route('category.destroy',['category' => $category->id])}}">--}}
+{{--                                            Delete--}}
+{{--                                        </a>--}}
+{{--                                    </td>--}}
                                 </tr>
                             @endforeach
                             </tbody>
