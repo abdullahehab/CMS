@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Post;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -61,5 +62,21 @@ class CategoriesController extends Controller
     }
 
 
+    public function trashed()
+    {
+        $categories = Category::onlyTrashed()->get();
+        return view('category.deletedCategory', compact('categories'));
+    }
 
+    public function hdelete($id)
+    {
+        Category::onlyTrashed()->where('id', $id)->forceDelete();
+        return back();
+    }
+
+    public function restore($id)
+    {
+        Category::onlyTrashed()->where('id', $id)->restore();
+        return back();
+    }
 }

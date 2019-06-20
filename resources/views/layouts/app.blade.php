@@ -38,6 +38,7 @@
                                 <a class="dropdown-item" href="{{route('category.create')}}">Create</a>
                                 <a class="dropdown-item" href="{{route('categories')}}">All categories</a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{route('category.trashed')}}">Deleted Category</a>
                             </div>
                         </li>
                     </ul>

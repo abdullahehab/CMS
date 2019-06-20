@@ -37,6 +37,9 @@ Route::group(['prefix' => '/posts', 'middleware' => 'auth'], function () {
 /*Categories route group*/
 Route::group(['prefix' => 'category', 'middleware' => 'auth'], function () {
     Route::get('/', 'CategoriesController@index')->name('categories');
+    Route::get('/trashed', 'CategoriesController@trashed')->name('category.trashed');
+    Route::get('/hdelete/{id}', 'CategoriesController@hdelete')->name('category.hdelete');
+    Route::get('/restore/{id}', 'CategoriesController@restore')->name('category.restore');
     Route::get('/create', 'CategoriesController@create')->name('category.create');
     Route::post('/store', 'CategoriesController@store')->name('category.store');
     Route::get('/{category}/edit', 'CategoriesController@edit')->name('category.edit');
@@ -45,6 +48,16 @@ Route::group(['prefix' => 'category', 'middleware' => 'auth'], function () {
 //    delete route
 });
 
+
 Route::resource('/tags', 'TagController')->middleware('auth');
 //Route::get('/tags/{tag}', 'TagController@destroy')->name('tag.destroy');
 
+Route::get('/getall', function() {
+
+
+    $cat = App\Category::find(5);
+    dd($cat);
+    return $cat;
+
+
+});
