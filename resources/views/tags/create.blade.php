@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Create Category</div>
+                    <div class="card-header">Create Tag</div>
 
                     <div class="card-body">
                         <form action="{{route('tags.store')}}" method="post">
@@ -14,7 +14,7 @@
 
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" value="{{old('c')}}" class="form-control  @error('tag') is-invalid @enderror" name="tag" placeholder="tag">
+                                <input type="text" value="{{old('tag')}}" class="form-control  @error('tag') is-invalid @enderror" name="tag" placeholder="tag">
                             </div>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
