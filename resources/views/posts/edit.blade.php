@@ -19,10 +19,36 @@
                                 <label for="categories">Select Category</label>
                                 <select class="form-control" id="categories" name="category_id">
                                     @foreach($categories as $category)
-                                        <option  value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @if($category->id == $post->category_id)
+                                            <option selected value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @else
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="categories">Select Tag</label>
+                                @foreach($tags as $tag)
+                                    <div class="form-check">
+
+                                        <input  class="form-check-input"
+                                                @foreach($post->tags as $ta)
+                                                    @if($ta->id == $tag->id)
+                                                            checked
+                                                    @endif
+                                                @endforeach
+                                                name="tags[]" type="checkbox" id="inlineCheckbox1" value="{{ $tag->id }}"
+                                        >
+
+                                        <label class="form-check-label" for="inlineCheckbox1">
+                                            {{ $tag->tag }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+
 
                             <div class="form-group">
                                 <label for="title">Title</label>
