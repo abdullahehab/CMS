@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Requests\PostRequest;
 use App\Post;
-use Illuminate\Http\Request;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -26,36 +26,49 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create()
     {
-        return view('posts.create')->with('categories', Category::all());
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        if ($categories->count() == 0)
+            return redirect()->route('category.create');
+
+        if ($tags->count() == 0)
+            return redirect()->route('tags.create');
+
+
+        return view('posts.create')
+            ->with('categories', $categories)
+            ->with('tags', $tags);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store(PostRequest $request, Post $post)
     {
 
         $image = $request->featured;
         $getOldName = $image->getClientOriginalName();
         $newName = time() . $getOldName;
-        $image->move('uploads/posts',$newName);
-
+        $image->move('uploads/posts', $newName);
 
         $validateData = [
             'title' => $request->title,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'featured' => 'uploads/posts/'.$newName,
-            'slug' => str_slug($request->title)
+            'featured' => 'uploads/posts/' . $newName,
+            'slug' => str_slug($request->title),
+            'tags' => $request -> tags
         ];
-//        dd($validateData);
 
-        Post::create($validateData);
+        $post = Post::create($validateData);
+        $post->tags()->attach($request->tags);
 
         return redirect(route('posts'));
     }
@@ -63,7 +76,7 @@ class PostsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -74,19 +87,21 @@ class PostsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
     {
-        return view('posts.edit',compact('post'))->with('categories', Category::all());
+        return view('posts.edit', compact('post'))
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(PostRequest $request, Post $post)
@@ -95,17 +110,20 @@ class PostsController extends Controller
         $image = $request->featured;
         $getOldName = $image->getClientOriginalName();
         $newName = time() . $getOldName;
-        $image->move('uploads/posts',$newName);
+        $image->move('uploads/posts', $newName);
 
         $validateData = [
             'title' => $request->title,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'featured' => 'uploads/posts/'.$newName,
-            'slug' => str_slug($request->title)
+            'featured' => 'uploads/posts/' . $newName,
+            'slug' => str_slug($request->title),
+            'tags' => $request -> tags
         ];
 
         $post->update($validateData);
+//        $post->tags()->attach($request->tags); // the same action of sync function
+        $post->tags()->sync($request->tags);
 
         return redirect()->route('posts');
     }
@@ -113,7 +131,7 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post)
@@ -125,7 +143,7 @@ class PostsController extends Controller
 
     public function trashed()
     {
-       $posts = Post::onlyTrashed()->get();
+        $posts = Post::onlyTrashed()->get();
         return view('posts.deletedPost', compact('posts'));
     }
 
