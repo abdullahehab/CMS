@@ -24,6 +24,18 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="categories">Select Tag</label>
+                                @foreach($tags as $tag)
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="tags[]" type="checkbox" id="inlineCheckbox1" value="{{ $tag->id }}">
+                                        <label class="form-check-label" for="inlineCheckbox1">
+                                            {{ $tag->tag }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="form-group">
                                 <label for="title">Title</label>
                                 <input type="text" value="{{old('title')}}" class="form-control  @error('title') is-invalid @enderror" name="title" placeholder="Post title">
                             </div>
