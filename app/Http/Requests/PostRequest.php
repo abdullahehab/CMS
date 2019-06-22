@@ -28,7 +28,8 @@ class PostRequest extends FormRequest
             'description' => 'required',
             'category_id' => 'required',
             'featured' => 'required|image',
-            'slug' => ''
+            'slug' => '',
+            'tags' => 'required'
         ];
     }
 }
