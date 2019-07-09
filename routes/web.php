@@ -1,5 +1,5 @@
 <?php
-
+use App\Mail\TestEmail;
 /*
  * GET /projects (index) -> function name
  * GET /projects/create (create)
@@ -10,17 +10,13 @@
  * DELETE /projects/1 (destroy)
  */
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/* admin dashboard */
+Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 
 /*Post route group*/
-Route::group(['prefix' => '/posts', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin/posts', 'middleware' => 'auth'], function () {
 
 //    Route::resource('/', 'PostsController');
     Route::get('/', 'PostsController@index')->name('posts');
@@ -35,7 +31,7 @@ Route::group(['prefix' => '/posts', 'middleware' => 'auth'], function () {
 });
 
 /*Categories route group*/
-Route::group(['prefix' => 'category', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin/category', 'middleware' => 'auth'], function () {
     Route::get('/', 'CategoriesController@index')->name('categories');
     Route::get('/trashed', 'CategoriesController@trashed')->name('category.trashed');
     Route::get('/hdelete/{id}', 'CategoriesController@hdelete')->name('category.hdelete');
@@ -44,20 +40,42 @@ Route::group(['prefix' => 'category', 'middleware' => 'auth'], function () {
     Route::post('/store', 'CategoriesController@store')->name('category.store');
     Route::get('/{category}/edit', 'CategoriesController@edit')->name('category.edit');
     Route::PATCH('/{category}', 'CategoriesController@update')->name('category.update');
-    Route::DELETE   ('/{category}', 'CategoriesController@destroy')->name('category.destroy');
+    Route::DELETE('/{category}', 'CategoriesController@destroy')->name('category.destroy');
 //    delete route
 });
 
-
 Route::resource('/tags', 'TagController')->middleware('auth');
-//Route::get('/tags/{tag}', 'TagController@destroy')->name('tag.destroy');
+Route::resource('/users', 'UserController')->middleware('auth');
+Route::get('users/makeAdmin/{id}', 'UserController@makeAdmin')->name('user.makeAdmin');
+Route::get('users/deleteAdmin/{id}', 'UserController@deleteAdmin')->name('user.deleteAdmin');
 
-Route::get('/getall', function() {
+/* Setting routes */
+Route::get('/settings', 'SettingsController@index')->name('settings');
+Route::PATCH('/settings/update', 'SettingsController@update')->name('setting.update');
 
+/* UI routes */
+Route::get('/', 'SiteUiController@index');
+Route::get('post/{slug}', 'SiteUiController@showPost')->name('post.show');
+Route::get('category/{id}', 'SiteUiController@showPostsForCategory')->name('category.show');
+Route::get('tag/{id}', 'SiteUiController@showPostsForTag')->name('tag.show');
 
-    $cat = App\Category::find(5);
-    dd($cat);
-    return $cat;
+/* Search route */
+Route::get('/search', function () {
+    $post = \App\Post::where('title', 'like',  '%' . request('search') . '%' )->get();
 
+    return view('website.results')
 
+        ->with('categories', \App\Category::all())
+        ->with('searchKey', request('search'))
+        ->with('tags', \App\Tag::all())
+        ->with('posts', $post)
+        ->with('settings', \App\Settings::first());
+
+})->name('results');
+
+/*Route for sending email*/
+Route::get('/testemail', function () {
+
+    $data = ['message' => 'This is a test!'];
+    Mail::to('nrtroz.ae@gmail.com')->send(new TestEmail($data));
 });

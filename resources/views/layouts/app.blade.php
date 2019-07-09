@@ -70,6 +70,31 @@
                         </li>
                     </ul>
                     {{--End tags Drop down menu--}}
+
+                    {{--Users Drop down menu--}}
+                    <ul class="nav nav-pills">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">User</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{route('users.create')}}">Create</a>
+                                <a class="dropdown-item" href="{{route('users.index')}}">Users</a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    {{--End Users Drop down menu--}}
+
+                    {{--Users Drop down menu--}}
+                    <ul class="nav nav-pills">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{route('settings')}}">Show</a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    {{--End Users Drop down menu--}}
                 @endif
 
 
