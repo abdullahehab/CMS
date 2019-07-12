@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Requests\PostRequest;
 use App\Post;
 use App\Tag;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -64,7 +65,8 @@ class PostsController extends Controller
             'category_id' => $request->category_id,
             'featured' => 'uploads/posts/' . $newName,
             'slug' => str_slug($request->title),
-            'tags' => $request -> tags
+            'tags' => $request -> tags,
+            'user_id' => Auth::id()
         ];
 
         $post = Post::create($validateData);

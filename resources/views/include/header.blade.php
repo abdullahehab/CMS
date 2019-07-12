@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial./img/hot-post-1.jpg-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Callie HTML Template</title>
+    <title>@yield('title', 'Blog post')</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CMuli:400,700" rel="stylesheet">
@@ -51,6 +51,28 @@
                 <div class="nav-btns">
                     <button class="aside-btn"><i class="fa fa-bars"></i></button>
                     <button class="search-btn"><i class="fa fa-search"></i></button>
+                    @guest
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a> |
+                    @if (Route::has('register'))
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    @endif
+{{--                    @else--}}
+{{--                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>--}}
+{{--                            {{ Auth::user()->name }} <span class="caret"></span>--}}
+{{--                        </a>--}}
+
+{{--                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">--}}
+{{--                            <a class="dropdown-item" href="{{ route('logout') }}"--}}
+{{--                               onclick="event.preventDefault();--}}
+{{--                                                 document.getElementById('logout-form').submit();">--}}
+{{--                                {{ __('Logout') }}--}}
+{{--                            </a>--}}
+
+{{--                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
+{{--                                @csrf--}}
+{{--                            </form>--}}
+                        </div>
+                @endguest
                     <div id="nav-search">
                         <form method="get" action="{{ route('results') }}">
                             @csrf
@@ -79,5 +101,36 @@
             </div>
         </div>
         <!-- /Main Nav -->
-    </div>
+
+        <!-- Aside Nav -->
+        <div id="nav-aside">
+            <ul class="nav-aside-menu">
+                <li><a href="{{ route('profile.index') }}">Profile</a></li>
+                <li><a href="{{ route('userPost.show') }}">My Posts</a></li>
+
+                @isAdmin
+                <li><a href="{{route('dashboard')}}">Admin Panel</a></li>
+                @endif
+
+                <li><a href="contact.html">Contacts</a></li>
+                <li><a href="#">Advertise</a></li>
+                @auth
+                <li>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+                @endif
+            </ul>
+            <button class="nav-close nav-aside-close"><span></span></button>
+        </div>
+        <!-- /Aside Nav -->
+    @yield('header')
 </header>
+    <!-- /NAV -->

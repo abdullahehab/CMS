@@ -27,7 +27,7 @@ class PostRequest extends FormRequest
             'title' => 'required',
             'description' => 'required',
             'category_id' => 'required',
-            'featured' => 'required|image',
+            'featured' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'slug' => '',
             'tags' => 'required'
         ];

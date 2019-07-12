@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Profile;
-use App\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class permissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index')->with('users', User::all());
+        //
     }
 
     /**
@@ -26,7 +23,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        //
     }
 
     /**
@@ -35,19 +32,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request, User $user)
+    public function store(Request $request)
     {
-        $validatedData = [
-            'name' => $request -> name,
-            'email' => $request -> email,
-            'password' => bcrypt($request->password),
-            'admin' => $request-> admin
-        ];
-
-        $user = User::create($validatedData);
-
-        Profile::create(['user_id' => $user->id]);
-        return redirect()->route('users.index');
+        //
     }
 
     /**
@@ -67,9 +54,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('users.edit', compact('user'));
+        //
     }
 
     /**
@@ -79,9 +66,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, User $user)
+    public function update(Request $request, $id)
     {
-        dd($request->all());
+        //
     }
 
     /**
@@ -94,22 +81,4 @@ class UserController extends Controller
     {
         //
     }
-
-    public function makeAdmin($id)
-    {
-        $user = User::find($id);
-        $user->admin = 1;
-        $user->save();
-        return back();
-    }
-
-    public function deleteAdmin($id)
-    {
-        $user = User::find($id);
-        $user->admin = 0;
-        $user->save();
-        return back();
-    }
-
-
 }

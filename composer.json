@@ -15,6 +15,7 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8",
+        "santigarcor/laratrust": "5.2.*",
         "vluzrmos/collective-html": "^1.0"
     },
     "require-dev": {

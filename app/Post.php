@@ -10,7 +10,7 @@ class Post extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'description', 'featured', 'slug'];
+    protected $fillable = ['category_id', 'title', 'description', 'featured', 'slug', 'user_id'];
 
     protected $dates = ['deleted_at'];
 
@@ -27,5 +27,10 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

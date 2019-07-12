@@ -13,16 +13,16 @@ use App\Mail\TestEmail;
 Auth::routes();
 
 /* admin dashboard */
-Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard')->middleware(['auth', 'admin']);
 
 /*Post route group*/
-Route::group(['prefix' => 'admin/posts', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin/posts', 'middleware' => ['auth', 'admin']], function () {
 
-//    Route::resource('/', 'PostsController');
-    Route::get('/', 'PostsController@index')->name('posts');
+    //Route::resource('/', 'PostsController');
     Route::get('/trashed', 'PostsController@trashed')->name('post.trashed');
     Route::get('/hdelete/{id}', 'PostsController@hdelete')->name('post.hdelete');
     Route::get('/restore/{id}', 'PostsController@restore')->name('post.restore');
+    Route::get('/', 'PostsController@index')->name('posts');
     Route::get('/create', 'PostsController@create')->name('post.create');
     Route::post('/store', 'PostsController@store')->name('post.store');
     Route::get('/{post}/edit', 'PostsController@edit')->name('post.edit');
@@ -31,24 +31,31 @@ Route::group(['prefix' => 'admin/posts', 'middleware' => 'auth'], function () {
 });
 
 /*Categories route group*/
-Route::group(['prefix' => 'admin/category', 'middleware' => 'auth'], function () {
-    Route::get('/', 'CategoriesController@index')->name('categories');
+Route::group(['prefix' => 'admin/category', 'middleware' => ['auth', 'admin']], function () {
+
     Route::get('/trashed', 'CategoriesController@trashed')->name('category.trashed');
     Route::get('/hdelete/{id}', 'CategoriesController@hdelete')->name('category.hdelete');
     Route::get('/restore/{id}', 'CategoriesController@restore')->name('category.restore');
+    Route::get('/', 'CategoriesController@index')->name('categories');
     Route::get('/create', 'CategoriesController@create')->name('category.create');
     Route::post('/store', 'CategoriesController@store')->name('category.store');
     Route::get('/{category}/edit', 'CategoriesController@edit')->name('category.edit');
     Route::PATCH('/{category}', 'CategoriesController@update')->name('category.update');
     Route::DELETE('/{category}', 'CategoriesController@destroy')->name('category.destroy');
-//    delete route
 });
 
-Route::resource('/tags', 'TagController')->middleware('auth');
-Route::resource('/users', 'UserController')->middleware('auth');
-Route::get('users/makeAdmin/{id}', 'UserController@makeAdmin')->name('user.makeAdmin');
-Route::get('users/deleteAdmin/{id}', 'UserController@deleteAdmin')->name('user.deleteAdmin');
+/*Tag routes*/
+Route::resource('/tags', 'TagController')->middleware(['auth', 'admin']);
 
+/*User Routes*/
+Route::resource('/user', 'UsersController')->middleware('auth');
+Route::get('users/makeAdmin/{id}', 'UsersController@makeAdmin')->name('user.makeAdmin');
+Route::get('users/deleteAdmin/{id}', 'UsersController@deleteAdmin')->name('user.deleteAdmin');
+
+/*profile route*/
+Route::get('/userProfile', 'UsersController@showProfile')->name('user.profile');
+Route::resource('/profile', 'ProfilesController');
+/* Setting routes */
 /* Setting routes */
 Route::get('/settings', 'SettingsController@index')->name('settings');
 Route::PATCH('/settings/update', 'SettingsController@update')->name('setting.update');
@@ -56,8 +63,14 @@ Route::PATCH('/settings/update', 'SettingsController@update')->name('setting.upd
 /* UI routes */
 Route::get('/', 'SiteUiController@index');
 Route::get('post/{slug}', 'SiteUiController@showPost')->name('post.show');
+Route::get('/userPosts', 'SiteUiController@getPostsForUser')->name('userPost.show');
+Route::get('userPosts/{post}/edit', 'SiteUiController@editUserPost')->name('UserPost.edit');
+Route::PATCH('userPosts/{post}/update', 'SiteUiController@UpdateUserPost')->name('UserPost.update');
+Route::GET('userPosts/{post}/delete', 'SiteUiController@destroyUserPost')->name('UserPost.destroy');
+
 Route::get('category/{id}', 'SiteUiController@showPostsForCategory')->name('category.show');
 Route::get('tag/{id}', 'SiteUiController@showPostsForTag')->name('tag.show');
+
 
 /* Search route */
 Route::get('/search', function () {
@@ -73,9 +86,18 @@ Route::get('/search', function () {
 
 })->name('results');
 
+
 /*Route for sending email*/
 Route::get('/testemail', function () {
 
     $data = ['message' => 'This is a test!'];
     Mail::to('nrtroz.ae@gmail.com')->send(new TestEmail($data));
+});
+
+/* Role and permission routes */
+Route::group(['middleware' => ['role:administrator']], function () {
+
+    Route::resource('users', 'UsersController');
+    Route::resource('permission', 'permissionController');
+    Route::resource('roles', 'rolesController');
 });

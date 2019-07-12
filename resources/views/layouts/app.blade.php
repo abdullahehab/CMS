@@ -76,8 +76,8 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">User</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{route('users.create')}}">Create</a>
-                                <a class="dropdown-item" href="{{route('users.index')}}">Users</a>
+                                <a class="dropdown-item" href="{{route('user.create')}}">Create</a>
+                                <a class="dropdown-item" href="{{route('user.index')}}">Users</a>
                                 <div class="dropdown-divider"></div>
                             </div>
                         </li>
@@ -121,6 +121,7 @@
                                 </li>
                             @endif
                         @else
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

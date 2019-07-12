@@ -26,7 +26,6 @@
                                     <td>{{ $tags->tag }}</td>
                                     <td>
                                         <form action="{{route('tags.edit',['tag' => $tags->id])}}">
-                                            @method('DELETE')
                                             @csrf
 
                                             <div class="form-group">

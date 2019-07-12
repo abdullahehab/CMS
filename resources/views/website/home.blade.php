@@ -1,43 +1,10 @@
 @extends('index')
 
-
-@section('head')
-        <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial./img/hot-post-1.jpg-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <title>Callie HTML Template</title>
-
-    <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CMuli:400,700" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="website/css/bootstrap.min.css" />
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="website/css/font-awesome.min.css">
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="website/css/style.css" />
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-@endsection
-
+@section('title', 'Home')
 
 @section('content')
     <!-- SECTION -->
     <div class="section">
-        <!-- container -->
         <div class="container">
             <!-- row -->
             <div id="hot-post" class="row hot-post">
@@ -49,7 +16,7 @@
                             <div class="post-category">
                                 <a href="category.html">{{ $first_post->title }}</a>
                                 <br>
-                                <a href="category.html">{{ $first_post->category->name }}</a>
+                                <a href="{{ route('category.show', ['id' => $first_post->category->id]) }}">{{ $first_post->category->name }}</a>
                             </div>
                             <h3 class="post-title title-lg"><a href="blog-post.html">{{ $first_post->description }}</a></h3>
                             <ul class="post-meta">
@@ -69,7 +36,7 @@
                             <div class="post-category">
                                 <a href="category.html">{{ $second_post->title }}</a>
                                 <br>
-                                <a href="category.html">{{ $second_post->category->name }}</a>
+                                <a href="{{ route('category.show', ['id' => $second_post->category->id]) }}">{{ $second_post->category->name }}</a>
                             </div>
                             <h3 class="post-title"><a href="blog-post.html">{{ $second_post->description }}</a></h3>
                             <ul class="post-meta">
@@ -86,7 +53,7 @@
                         <div class="post-body">
                             <div class="post-category">
                                 <a href="category.html">{{ $third_post->title }}</a><br>
-                                <a href="category.html">{{ $third_post->category->name }}</a>
+                                <a href="{{ route('category.show', ['id' => $third_post->category->id]) }}">{{ $third_post->category->name }}</a>
                             </div>
                             <h3 class="post-title"><a href="blog-post.html">{{ $third_post->description }}</a></h3>
                             <ul class="post-meta">
@@ -140,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <!-- /post -->
+                                <!-- /post -->
                             @endforeach
                         </div>
                     @endforeach

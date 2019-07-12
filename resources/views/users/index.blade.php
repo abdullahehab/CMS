@@ -15,7 +15,8 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role</th>
-                                <th scope="col">Options</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -39,13 +40,25 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{route('users.edit',['user' => $user->id])}}">
-                                            Edit
-                                        </a>
-                                        |
-                                        <a href="{{route('users.destroy',['user' => $user->id])}}">
-                                            Delete
-                                        </a>
+                                        <form action="{{route('user.edit',['user' => $user->id])}}">
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-outline-primary" value="Edit">
+                                            </div>
+
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="{{route('user.destroy',['user' => $user->id])}}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-outline-danger" value="Delete">
+                                            </div>
+
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
